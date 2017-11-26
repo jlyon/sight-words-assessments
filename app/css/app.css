@@ -1,0 +1,29 @@
+body {
+  padding-top: 70px; }
+
+.assessment.form-disabled a.btn {
+  pointer-events: none;
+  opacity: 1 !important; }
+
+.assessment a.btn {
+  margin: 2px; }
+
+.assessment .list-words a.btn {
+  min-width: 200px;
+  display: inline-block; }
+
+.assessment .list-colors a.btn.active {
+  border-color: black; }
+
+.assessments a .color-swatch {
+  width: 40px;
+  display: inline-block;
+  height: 40px;
+  margin: -15px 10px -15px -15px; }
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    padding-top: 0; }
+  .no-print {
+    display: none; } }

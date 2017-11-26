@@ -1,0 +1,76 @@
+<div ng-if="colors && words && assessments">
+<h1>Assessments for {{student['First Name']}} {{student['Last Name']}}</h1>
+<div class="row assessments">
+  <div class="col-xs-6">
+    <div class="list-group" ng-if="assessments">
+      <a ng-repeat="item in assessments"
+         title="Edit this assessment"
+         ng-click="clickAssessment(item, $event)"
+         ng-class="assessment && assessment.id == item.id ? 'active' : ''"
+         class="list-group-item list-group-item list-group-item-action">
+        <span class="color-swatch color-{{item.Color[0]}}" class="btn"></span>
+        {{item.Label}}
+      </a>
+    </div>
+  </div>
+  <div class="col-xs-6 no-print" ng-if="!assessment">
+    <button class="btn btn-primary" ng-click="newAssessment()"><i class="fa fa-fw fa-plus-circle"></i>Create New Assessment</button>
+  </div>
+</div>
+
+<form class="assessment" ng-class="!assessment ? 'form-disabled' : ''">
+
+
+  <div ng-if="assessment">
+
+    <button class="btn btn-default pull-right" ng-click="cancelAssessment()">Cancel</button>
+    <button class="btn btn-primary pull-right" ng-click="saveAssessment(assessment)"><i class="fa fa-fw fa-floppy-o"></i>Save</button>
+
+    <h2 ng-if="assessment.id">Edit Assessment from {{assessment.Label}}</h2>
+    <h2 ng-if="!assessment.id">Create new Assessment</h2>
+
+    <div class="form-group row">
+      <label class="col-sm-12 col-form-label">Date</label>
+      <div class="col-sm-4">
+        <input type="date" class="form-control" ng-model="assessment.Date">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-12 col-form-label">Color</label>
+      <div class="col-sm-10 list-colors">
+        <a class="btn btn-default"
+           ng-repeat="color in colors"
+           title="{{color.Label}}"
+           ng-click="setColor(color)"
+           ng-class="assessment.Color[0] == color.id ? 'active' : ''"
+           ng-style="{backgroundColor: '#' + color.Code}">
+          &nbsp;
+        </a>
+      </div>
+    </div>
+    <style>
+      .list-words .active{
+        background-color: #{{activeColor.Code}} !important;
+      }
+    </style>
+  </div>
+
+  <div class="list-group list-words" ng-repeat="color in colors">
+    <style>
+      .color-{{color.id}} {
+        background-color: #{{color.Code}} !important;
+      }
+    </style>
+    <div><label>{{color.Label}}</label></div>
+    <a ng-repeat="word in words"
+       ng-if="word.Color == color.Label.toLowerCase()"
+       class="btn btn-default"
+       ng-click="toggleWord(word.id)"
+       ng-class="assessment && assessment.Words.indexOf(word.id) != -1 ? 'active' : (disabledWords[word.id] ? 'disabled color-' + disabledWords[word.id] : '' )">
+      {{word.Question}}
+    </a>
+  </div>
+
+</form>
+</div>

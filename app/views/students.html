@@ -1,0 +1,5 @@
+<div class="list-group" ng-if="students">
+  <a ng-repeat="student in students" ui-sref="assessment({student: student.id})" class="list-group-item list-group-item list-group-item-action">
+    {{student['Last Name']}}, {{student['First Name']}}
+  </a>
+</div>
