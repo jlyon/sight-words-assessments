@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" ng-attr-content="{{metaDescription()}}"/>
     <meta name="keywords" ng-attr-content="{{metaKeywords()}}"/>
-    <title>Flashcards</title>
+    <title>Lodestar Progress Tracker</title>
     <link rel="stylesheet" href="css/libraries.min.css">
 
     <link rel="stylesheet" href="css/app.min.css">
@@ -34,8 +34,30 @@
 <body>
 
 
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Lodestar Progress Tracker</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a ui-sref="students">Students</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
 
-<main ui-view></main>
+<div class="container" ui-view>
+</div>
+
+
 
 <script src="js/bootstrap.js"></script>
 <script src="js/angular.js"></script>

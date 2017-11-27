@@ -8,18 +8,25 @@ body {
 .assessment a.btn {
   margin: 2px; }
 
-.assessment .list-words a.btn {
-  min-width: 200px;
+.assessment .list-items a.btn {
+  min-width: 100px;
   display: inline-block; }
 
 .assessment .list-colors a.btn.active {
   border-color: black; }
 
-.assessments a .color-swatch {
+.assessments .list-group-item .color-swatch {
   width: 40px;
   display: inline-block;
   height: 40px;
   margin: -15px 10px -15px -15px; }
+
+.assessments td.color-swatch {
+  padding: 0; }
+  .assessments td.color-swatch span {
+    width: 35px;
+    height: 35px;
+    display: block; }
 
 @media print {
   body {

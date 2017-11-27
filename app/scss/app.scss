@@ -20,9 +20,9 @@ body {
     margin: 2px;
   }
   
-  .list-words {
+  .list-items {
     a.btn {
-      min-width: 200px;
+      min-width: 100px;
       display: inline-block
     }
   }
@@ -35,12 +35,22 @@ body {
 }
 
 .assessments {
-  a {
+  .list-group-item {
     .color-swatch {
       width: 40px;
       display: inline-block;
       height: 40px;
       margin: -15px 10px -15px -15px;
+    }
+  }
+  
+  td.color-swatch {
+    padding: 0;
+    
+    span {
+      width: 35px;
+      height: 35px;
+      display: block;
     }
   }
 }
