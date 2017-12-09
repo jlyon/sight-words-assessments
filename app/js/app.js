@@ -102,7 +102,12 @@ angular.module('app', [
                     students.push($scope.students[i].id);
                   }
                 }
-                $state.go('printAssessment', {students: students.join(',')});
+                if (students.length) {
+                  $state.go('printAssessment', {students: students.join(',')});
+                }
+                else {
+                  alert('Please select at least one student');
+                }
               }
 
             }

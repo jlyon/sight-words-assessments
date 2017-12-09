@@ -8720,7 +8720,7 @@ getResponse:function(callbackPath){return callbackMap[callbackPath].data},/**
        * {@link $httpBackend} calls this method to remove the callback after the JSONP request has
        * completed or timed-out.
        */
-removeCallback:function(callbackPath){var callback=callbackMap[callbackPath];delete callbacks[callback.id],delete callbackMap[callbackPath]}}}]},PATH_MATCH=/^([^?#]*)(\?([^#]*))?(#(.*))?$/,DEFAULT_PORTS={http:80,https:443,ftp:21},$locationMinErr=minErr("$location"),DOUBLE_SLASH_REGEX=/^\s*[\\/]{2,}/,locationPrototype={/**
+removeCallback:function(callbackPath){var callback=callbackMap[callbackPath];delete callbacks[callback.id],delete callbackMap[callbackPath]}}}]},PATH_MATCH=/^([^?#]*)(\?([^#]*))?(#(.*))?$/,DEFAULT_PORTS={http:80,https:443,ftp:21},$locationMinErr=minErr("$location"),DOUBLE_SLASH_REGEX=/^\s*[\\\/]{2,}/,locationPrototype={/**
    * Ensure absolute URL is initialized.
    * @private
    */

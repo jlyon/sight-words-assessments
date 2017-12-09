@@ -1,6 +1,6 @@
 <!--<div ng-if="colors && items && assessments">-->
-<div>
-<h1>{{student['First Name']}} {{student['Last Name']}}'s {{type}} Progress <small>{{student.Crew}} Crew</small></h1>
+<div ng-class="show ? '' : 'force-no-print'">
+<h1>{{student['FirstName']}} {{student['LastName']}}'s {{type}} Progress <small>{{student.Crew}} Crew</small></h1>
 
 
 <div class="form-group row no-print" ng-if="edit">
@@ -22,34 +22,36 @@
 </span>
 
 <div class="row assessments">
-  <div class="col-xs-6">
+  <div class="col-xs-12 col-lg-8">
 
-    <table ng-if="assessments.length" class="table table-striped">
+    <!--<table ng-if="assessments.length" class="table table-striped">
       <thead>
       <tr>
-        <th></th>
-        <th>Date</th>
+        <th class="color-swatch"><span></span></th>
+        <th class="date">Date</th>
         <th>Total</th>
       </tr>
       </thead>
       <tbody>
       <tr ng-repeat="item in assessments">
         <td class="color-swatch"><span class="color-{{item.Color[0]}}">&nbsp;</span></td>
-        <td>{{item.Date | date:'MMMM d yyyy'}}</td>
+        <td class="date">{{item.Date | date:'MMMM d yyyy'}}</td>
         <td>{{item.sum || 0}}</td>
       </tr>
       </tbody>
-    </table>
+    </table>-->
 
-    <!--<ul class="list-group" ng-if="assessments">
-      <li ng-repeat="item in assessments"
+    <div class="list-group" ng-if="assessments">
+      <a ng-repeat="item in assessments"
          title="Edit this assessment"
+         ng-click="clickAssessment(item)"
          ng-class="assessment && assessment.id == item.id ? 'active' : ''"
          class="list-group-item list-group-item list-group-item-action">
         <span class="color-swatch color-{{item.Color[0]}}" class="btn"></span>
         {{item.Date | date:'MMMM d yyyy'}}
-      </li>
-    </ul>-->
+        <span class="label label-default pull-right">{{item.sum || 0}}</span>
+      </a>
+    </div>
   </div>
   <div class="col-xs-6 no-print" ng-if="!assessment && edit">
 
@@ -102,7 +104,7 @@
   </div>
 
   <div class="list-group list-items" ng-repeat="group in groups" ng-if="assessment || assessments.length">
-    <div><label>{{group.Label}}</label></div>
+    <h4>{{group.Label}}</h4>
     <a ng-repeat="item in items"
        ng-if="item.Group[0] == group.id"
        class="btn btn-default"
