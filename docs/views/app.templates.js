@@ -26,7 +26,7 @@ angular.module('311AppParent').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('views/print.html',
-    "<div class=\"print\"><div class=\"alert alert-info no-print\" role=\"alert\"><h1 ng-class=\"loading ? '' : 'force-no-print'\" class=\"no-print\"><i class=\"fa fa-fw fa-spinner fa-spin\"></i>Loading {{total}} students...</h1><p>This will print Words and Letters reports for {{total}} students and will require at most <strong>{{total*2}}</strong> sheets of paper</p><p ng-class=\"loading ? 'force-no-print' : ''\"><button onclick=\"window.print()\" class=\"btn btn-primary\"><i class=\"fa fa-fw fa-print\"></i>Print it!</button></p></div><div ng-repeat=\"student in students\"><div assessment type=\"words\" student=\"student\" print=\"true\"></div><div assessment type=\"letters\" student=\"student\" print=\"true\"></div></div></div>"
+    "<div class=\"print\"><div class=\"alert alert-info no-print\" role=\"alert\"><h1 ng-class=\"loading ? '' : 'force-no-print'\" class=\"no-print\"><i class=\"fa fa-fw fa-spinner fa-spin\"></i>Loading {{total}} students...</h1><p>This will print Words and Letters reports for {{total}} students and will require at most <strong>{{total*2}}</strong> sheets of paper</p><p ng-class=\"loading ? 'force-no-print' : ''\"><button onclick=\"window.print()\" class=\"btn btn-primary\"><i class=\"fa fa-fw fa-print\"></i>Print all</button></p></div><div ng-repeat=\"student in students\"><div assessment type=\"words\" student=\"student\" print=\"true\"></div><div assessment type=\"letters\" student=\"student\" print=\"true\"></div></div></div>"
   );
 
 
