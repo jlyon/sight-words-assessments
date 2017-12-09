@@ -66,7 +66,7 @@ angular.module('app', [
               var data = [];
               $rootScope.Airtable('Students').select({
                 sort: [
-                  {field: 'Last Name', direction: 'asc'}
+                  {field: 'LastName', direction: 'asc'}
                 ]
               }).eachPage(function page(records, fetchNextPage) {
                 records.forEach(function (record) {
@@ -79,6 +79,31 @@ angular.module('app', [
                 $scope.students = data;
                 $scope.$apply();
               });
+
+              $scope.query = '';
+              $scope.order = 'Last+Name';
+              $scope.setSort = function(key, e) {
+                e.preventDefault();
+                key = key.replace(/ /g, '+');
+                $scope.order = $scope.order == key ? '-' + key : key;
+              }
+
+              $scope.checkall = false;
+              $scope.checkallClick = function() {
+                var arr = $filter('filter')($scope.students, $scope.query);
+                for (var i=0; i<arr.length; i++) {
+                  arr[i].selected = $scope.checkall;
+                }
+              };
+              $scope.print = function() {
+                var students = [];
+                for (var i=0; i<$scope.students.length; i++) {
+                  if ($scope.students[i].selected) {
+                    students.push($scope.students[i].id);
+                  }
+                }
+                $state.go('printAssessment', {students: students.join(',')});
+              }
 
             }
           })
@@ -105,7 +130,25 @@ angular.module('app', [
             url: '/print/:students',
             templateUrl: 'views/print.html',
             controller: function ($scope, $rootScope, $state, $filter, $http) {
-              $scope.students = $state.params.students.split(',');
+              var students = $state.params.students.split(',');
+              $scope.total = students.length;
+              $scope.students = [];
+              $scope.loading = true;
+              var timeout = function() {
+                if (students.length) {
+                  $scope.progress = $scope.total - students.length;
+                  $scope.students.push(students.pop());
+                  console.log($scope.students);
+                  setTimeout(timeout, 3000);
+                }
+                else {
+                  $scope.loading = false;
+                  $scope.$apply();
+                }
+              }
+              timeout();
+              $scope.words = 'words';
+              $scope.letters = 'letters';
             }
           })
 

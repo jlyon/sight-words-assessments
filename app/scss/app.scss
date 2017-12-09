@@ -1,11 +1,15 @@
 // Bourbon
 // ---------------------------------
+@import url('https://fonts.googleapis.com/css?family=Muli');
 
 
 body {
   padding-top: 70px;
 }
 
+h1 {
+  margin-bottom: .5em;
+}
 
 .assessment {
   
@@ -18,11 +22,12 @@ body {
   
   a.btn {
     margin: 2px;
+    font-family: 'Muli', serif;
   }
   
   .list-items {
     a.btn {
-      min-width: 100px;
+      min-width: 65px;
       display: inline-block
     }
   }
@@ -35,12 +40,42 @@ body {
 }
 
 .assessments {
-  .list-group-item {
-    .color-swatch {
-      width: 40px;
-      display: inline-block;
-      height: 40px;
-      margin: -15px 10px -15px -15px;
+  
+  .list-group {
+    margin-bottom: 1em;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2; /*3 in those rules is just placeholder -- can be anything*/
+  
+  
+    .list-group-item {
+      border-radius: 0;
+      break-inside: avoid;
+      cursor: pointer;
+  
+      .color-swatch {
+        width: 40px;
+        display: inline-block;
+        height: 40px;
+        margin: -15px 10px -15px -15px;
+      }
+    }
+  }
+  
+  .btn-primary {
+    margin-bottom: 1em;
+  }
+  
+  
+  /*
+  tr {
+    display: block;
+    float: left;
+    width: 48%;
+    margin-right: 1%;
+    
+    .date {
+      width: 100%;
     }
   }
   
@@ -53,6 +88,11 @@ body {
       display: block;
     }
   }
+  */
+}
+
+.print .force-no-print {
+  display: none;
 }
 
 
@@ -65,4 +105,15 @@ body {
   .no-print {
     display: none;
   }
+  
+  .assessment {
+    page-break-after: always;
+  }
 }
+
+@media (max-width: 600px) {
+  .hidden-xs-down {
+    display: none;
+  }
+}
+

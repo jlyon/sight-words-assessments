@@ -1,36 +1,78 @@
+@import url("https://fonts.googleapis.com/css?family=Muli");
 body {
   padding-top: 70px; }
+
+h1 {
+  margin-bottom: .5em; }
 
 .assessment.form-disabled a.btn {
   pointer-events: none;
   opacity: 1 !important; }
 
 .assessment a.btn {
-  margin: 2px; }
+  margin: 2px;
+  font-family: 'Muli', serif; }
 
 .assessment .list-items a.btn {
-  min-width: 100px;
+  min-width: 65px;
   display: inline-block; }
 
 .assessment .list-colors a.btn.active {
   border-color: black; }
 
-.assessments .list-group-item .color-swatch {
-  width: 40px;
-  display: inline-block;
-  height: 40px;
-  margin: -15px 10px -15px -15px; }
+.assessments {
+  /*
+  tr {
+    display: block;
+    float: left;
+    width: 48%;
+    margin-right: 1%;
+    
+    .date {
+      width: 100%;
+    }
+  }
+  
+  td.color-swatch {
+    padding: 0;
+    
+    span {
+      width: 35px;
+      height: 35px;
+      display: block;
+    }
+  }
+  */ }
+  .assessments .list-group {
+    margin-bottom: 1em;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+    /*3 in those rules is just placeholder -- can be anything*/ }
+    .assessments .list-group .list-group-item {
+      border-radius: 0;
+      break-inside: avoid;
+      cursor: pointer; }
+      .assessments .list-group .list-group-item .color-swatch {
+        width: 40px;
+        display: inline-block;
+        height: 40px;
+        margin: -15px 10px -15px -15px; }
+  .assessments .btn-primary {
+    margin-bottom: 1em; }
 
-.assessments td.color-swatch {
-  padding: 0; }
-  .assessments td.color-swatch span {
-    width: 35px;
-    height: 35px;
-    display: block; }
+.print .force-no-print {
+  display: none; }
 
 @media print {
   body {
     -webkit-print-color-adjust: exact;
     padding-top: 0; }
   .no-print {
+    display: none; }
+  .assessment {
+    page-break-after: always; } }
+
+@media (max-width: 600px) {
+  .hidden-xs-down {
     display: none; } }

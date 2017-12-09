@@ -9,20 +9,18 @@ angular.module('app')
         type: '=',
         student: '=',
         assessment: '=',
-        edit: '='
+        edit: '=',
+        print: '@'
       },
       templateUrl: 'views/assessment.html',
       link: function($scope, $element, $attrs, $window) {
 
         $scope.type = $scope.type.replace(/\b\S/g, function(t) { return t.toUpperCase() });
+        $scope.show = false;
 
         $timeout(function(){
           $scope.link = window.location.href.replace('/admin', '');
         }, 0);
-
-
-
-        console.log($scope);
 
         var colors = [];
         $rootScope.Airtable('Colors').select({
@@ -37,7 +35,6 @@ angular.module('app')
           fetchNextPage();
         }, function done(error) {
           $scope.colors = colors;
-          console.log(colors);
           $scope.$apply();
         });
 
@@ -54,7 +51,6 @@ angular.module('app')
           fetchNextPage();
         }, function done(error) {
           $scope.items = items;
-          console.log(items);
           $scope.$apply();
         });
 
@@ -74,10 +70,11 @@ angular.module('app')
           $scope.$apply();
         });
 
-        var getStudents = function() {
-          $rootScope.Airtable('Students').find($state.params.student, function(err, record) {
+        var getStudents = function(cb, assessment) {
+          $rootScope.Airtable('Students').find($scope.student, function(err, record) {
             record.fields.id = record.id;
             $scope.student = record.fields;
+            $scope.show = $scope.print ? false : true;
             $scope.$apply();
 
             var assessments = [];
@@ -97,6 +94,7 @@ angular.module('app')
               });
               fetchNextPage();
             }, function done(error) {
+              $scope.show = assessments.length ? true : false;
               $scope.assessments = assessments;
               for (var j=0; j<assessments.length; j++) {
                 if (assessments[j].Items) {
@@ -106,6 +104,9 @@ angular.module('app')
                 }
               }
               $scope.disabledItems = disabledItems;
+              if (cb) {
+                cb(assessment, assessments);
+              }
               $scope.$apply();
             });
           });
@@ -136,12 +137,12 @@ angular.module('app')
           $scope.assessment = {
             Color: [false],
             Items: [],
-            Student: [$state.params.student],
+            Student: [$scope.student],
             Date: new Date()
           };
         }
 
-        $scope.clickAssessment = function(item) {
+        $scope.clickAssessment = function(item, e) {
           if ($scope.assessment && item.id == $scope.assessment.id) {
             $scope.assessment = null;
           }
@@ -150,9 +151,9 @@ angular.module('app')
               if ($scope.assessments[j].id == item.id) {
                 $scope.assessments[j].Date = new Date($scope.assessments[j].Date);
                 $scope.assessment = $scope.assessments[j];
-                for (var i=0; i<$scope.color; i++) {
-                  if ($scope.color[i].id == $scope.assessment.Color[0]) {
-                    $scope.setColor($scope.color[i]);
+                for (var i=0; i<$scope.colors.length; i++) {
+                  if ($scope.colors[i].id == $scope.assessment.Color[0]) {
+                    $scope.setColor($scope.colors[i]);
                   }
                 }
                 console.log($scope.assessment);
@@ -170,36 +171,42 @@ angular.module('app')
             alert('You must select a color');
             return false;
           }
-          assessment.Date = new Date(assessment.Date).toISOString().slice(0, 10);
           if (assessment.id) {
             var id = assessment.id;
             delete assessment.id;
             delete assessment.ID;
             delete assessment['$$hashKey'];
-            console.log(assessment);
+            delete assessment.sum;
             $rootScope.Airtable($scope.type + ' Assessments').update(id, assessment, function(err, record) {
               if (err) { console.error(err); return; }
               $scope.assessment = null;
-              getStudents();
+              getStudents(saveAssessmentCallback, assessment);
             });
           }
           else {
-            console.log(assessment);
-            $rootScope.Airtable($scope.type + ' Assessments').create(assessment, function(err, record) {
-              if (err) { console.log(err); return; }
+            assessment.Date = new Date(assessment.Date).toISOString().slice(0, 10);
+            $rootScope.Airtable($scope.type + ' Assessments').create(assessment, function (err, record) {
+              if (err) {
+                console.log(err);
+                return;
+              }
               $scope.assessment = null;
-              getStudents();
+              getStudents(saveAssessmentCallback, assessment);
             });
           }
 
+        }
+
+        var saveAssessmentCallback = function (assessment, assessments) {
           var studentEdit = {};
           studentEdit['Last ' + $scope.type + ' Assessment'] = assessment.Date;
+          var last = assessments.pop();
+          studentEdit['TotalLetters'] = last.sum;
           $rootScope.Airtable('Students').update($scope.student.id, studentEdit, function(err, record) {
             if (err) { console.log(err); return; }
             $scope.assessment = null;
             getStudents();
           });
-
         }
 
 
