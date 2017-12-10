@@ -22,6 +22,7 @@ angular.module('app', [
         // $rootScope
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
+        $rootScope.cache = {};
 
         var Airtable = require('airtable');
         $rootScope.Airtable = new Airtable({apiKey: 'keyNIbNk17BU31gT8'}).base('appKLD3WxfSgA0ad4');
@@ -102,6 +103,11 @@ angular.module('app', [
                     students.push($scope.students[i].id);
                   }
                 }
+                if (students.length > 10) {
+                  if (!confirm("Printing over 10 students at a time doesn't always work.  If you run in to issues, wait one minute, click Back, and refresh the page. \n\n Are you sure you want to continue?")) {
+                    return;
+                  }
+                }
                 if (students.length) {
                   $state.go('printAssessment', {students: students.join(',')});
                 }
@@ -137,13 +143,17 @@ angular.module('app', [
             controller: function ($scope, $rootScope, $state, $filter, $http) {
               var students = $state.params.students.split(',');
               $scope.total = students.length;
+              $scope.words = 'words';
+              $scope.letters = 'letters';
+              $scope.students = students;
+              /*
               $scope.students = [];
               $scope.loading = true;
               var timeout = function() {
                 if (students.length) {
                   $scope.progress = $scope.total - students.length;
-                  $scope.students.push(students.pop());
-                  console.log($scope.students);
+                  var student = students.pop()
+                  $scope.students.push(student);
                   setTimeout(timeout, 3000);
                 }
                 else {
@@ -152,8 +162,7 @@ angular.module('app', [
                 }
               }
               timeout();
-              $scope.words = 'words';
-              $scope.letters = 'letters';
+              */
             }
           })
 

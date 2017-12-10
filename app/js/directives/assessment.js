@@ -38,37 +38,49 @@ angular.module('app')
           $scope.$apply();
         });
 
-        var items = [];
-        $rootScope.Airtable($scope.type).select({
-          sort: [
-            {field: 'ID', direction: 'asc'}
-          ]
-        }).eachPage(function page(records, fetchNextPage) {
-          records.forEach(function (record) {
-            record.fields.id = record.id;
-            items.push(record.fields);
+        if ($rootScope.cache[$scope.type] == undefined) {
+          var items = [];
+          $rootScope.Airtable($scope.type).select({
+            sort: [
+              {field: 'ID', direction: 'asc'}
+            ]
+          }).eachPage(function page(records, fetchNextPage) {
+            records.forEach(function (record) {
+              record.fields.id = record.id;
+              items.push(record.fields);
+            });
+            fetchNextPage();
+          }, function done(error) {
+            $rootScope.cache[$scope.type] = items;
+            $scope.items = items;
+            $scope.$apply();
           });
-          fetchNextPage();
-        }, function done(error) {
-          $scope.items = items;
-          $scope.$apply();
-        });
+        }
+        else {
+          $scope.items = $rootScope.cache[$scope.type];
+        }
 
-        var groups = [];
-        $rootScope.Airtable($scope.type + ' Groups').select({
-          sort: [
-            {field: 'Order', direction: 'asc'}
-          ]
-        }).eachPage(function page(records, fetchNextPage) {
-          records.forEach(function (record) {
-            record.fields.id = record.id;
-            groups.push(record.fields);
+        if ($rootScope.cache[$scope.type + ' Groups'] == undefined) {
+          var groups = [];
+          $rootScope.Airtable($scope.type + ' Groups').select({
+            sort: [
+              {field: 'Order', direction: 'asc'}
+            ]
+          }).eachPage(function page(records, fetchNextPage) {
+            records.forEach(function (record) {
+              record.fields.id = record.id;
+              groups.push(record.fields);
+            });
+            fetchNextPage();
+          }, function done(error) {
+            $rootScope.cache[$scope.type + ' Groups'] = groups;
+            $scope.groups = groups;
+            $scope.$apply();
           });
-          fetchNextPage();
-        }, function done(error) {
-          $scope.groups = groups;
-          $scope.$apply();
-        });
+        }
+        else {
+          $scope.groups = $rootScope.cache[$scope.type + ' Groups'];
+        }
 
         var getStudents = function(cb, assessment) {
           $rootScope.Airtable('Students').find($scope.student, function(err, record) {

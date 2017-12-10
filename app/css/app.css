@@ -45,12 +45,12 @@ h1 {
   */ }
   .assessments .list-group {
     margin-bottom: 1em;
+    /*
     -webkit-column-count: 2;
     -moz-column-count: 2;
     column-count: 2;
-    /*3 in those rules is just placeholder -- can be anything*/ }
+    */ }
     .assessments .list-group .list-group-item {
-      border-radius: 0;
       break-inside: avoid;
       cursor: pointer; }
       .assessments .list-group .list-group-item .color-swatch {
@@ -71,7 +71,9 @@ h1 {
   .no-print {
     display: none; }
   .assessment {
-    page-break-after: always; } }
+    page-break-after: always; }
+  .list-group-item {
+    max-width: 400px; } }
 
 @media (max-width: 600px) {
   .hidden-xs-down {

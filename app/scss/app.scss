@@ -43,13 +43,14 @@ h1 {
   
   .list-group {
     margin-bottom: 1em;
+    /*
     -webkit-column-count: 2;
     -moz-column-count: 2;
-    column-count: 2; /*3 in those rules is just placeholder -- can be anything*/
+    column-count: 2;
+    */
   
   
     .list-group-item {
-      border-radius: 0;
       break-inside: avoid;
       cursor: pointer;
   
@@ -108,6 +109,10 @@ h1 {
   
   .assessment {
     page-break-after: always;
+  }
+  
+  .list-group-item {
+    max-width: 400px;
   }
 }
 
