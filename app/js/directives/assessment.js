@@ -83,7 +83,8 @@ angular.module('app')
         }
 
         var getStudents = function(cb, assessment) {
-          $rootScope.Airtable('Students').find($scope.student, function(err, record) {
+          var studentID = typeof $scope.student === 'string' ? $scope.student : $scope.student.id;
+          $rootScope.Airtable('Students').find(studentID, function(err, record) {
             record.fields.id = record.id;
             $scope.student = record.fields;
             $scope.show = $scope.print ? false : true;
@@ -155,6 +156,9 @@ angular.module('app')
         }
 
         $scope.clickAssessment = function(item, e) {
+          if (!$scope.edit) {
+            return;
+          }
           if ($scope.assessment && item.id == $scope.assessment.id) {
             $scope.assessment = null;
           }
@@ -168,7 +172,6 @@ angular.module('app')
                     $scope.setColor($scope.colors[i]);
                   }
                 }
-                console.log($scope.assessment);
               }
             }
           }
@@ -211,7 +214,7 @@ angular.module('app')
 
         var saveAssessmentCallback = function (assessment, assessments) {
           var studentEdit = {};
-          studentEdit['Last ' + $scope.type + ' Assessment'] = assessment.Date;
+          studentEdit['Last' + $scope.type + 'Assessment'] = assessment.Date;
           var last = assessments.pop();
           studentEdit['TotalLetters'] = last.sum;
           $rootScope.Airtable('Students').update($scope.student.id, studentEdit, function(err, record) {

@@ -63,6 +63,7 @@ angular.module('app', [
                 }
             },*/
             controller: function ($scope, $rootScope, $state, $filter, $http) {
+              $rootScope.showAdmin = true;
 
               var data = [];
               $rootScope.Airtable('Students').select({
@@ -123,6 +124,7 @@ angular.module('app', [
             url: '/admin/student/:student/:type',
             template: '<div assessment edit="true" type="type" student="student"></div>',
             controller: function ($scope, $rootScope, $state, $filter, $http) {
+              $rootScope.showAdmin = true;
               $scope.type = $state.params.type;
               $scope.student = $state.params.student;
             }
