@@ -193,15 +193,17 @@ angular.module('app')
             delete assessment['$$hashKey'];
             delete assessment.sum;
             $rootScope.Airtable($scope.type + ' Assessments').update(id, assessment, function(err, record) {
-              if (err) { console.error(err); return; }
+              if (err) { alert('There was a problem saving this assessment!');console.error(err); return; }
               $scope.assessment = null;
               getStudents(saveAssessmentCallback, assessment);
             });
           }
           else {
             assessment.Date = new Date(assessment.Date).toISOString().slice(0, 10);
+            assessment.Student[0] = typeof assessment.Student[0] == 'object' ? assessment.Student[0].id : assessment.Student[0];
             $rootScope.Airtable($scope.type + ' Assessments').create(assessment, function (err, record) {
               if (err) {
+                alert('There was a problem saving this assessment!');
                 console.log(err);
                 return;
               }
