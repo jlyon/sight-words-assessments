@@ -218,7 +218,7 @@ angular.module('app')
           var studentEdit = {};
           studentEdit['Last' + $scope.type + 'Assessment'] = assessment.Date;
           var last = assessments.pop();
-          studentEdit['TotalLetters'] = last.sum;
+          studentEdit['Total' + $scope.type] = last.sum;
           $rootScope.Airtable('Students').update($scope.student.id, studentEdit, function(err, record) {
             if (err) { console.log(err); return; }
             $scope.assessment = null;

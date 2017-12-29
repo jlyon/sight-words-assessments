@@ -18,6 +18,7 @@
     <th><a ng-click="setSort('LastWordsAssessment', $event)" href="#">Words</a></th>
     <th><a ng-click="setSort('LastLettersAssessment', $event)" href="#">Letters</a></th>
     <th class="hidden-xs-down"><a ng-click="setSort('TotalLetters', $event)" href="#">Total Letters</a></th>
+    <th class="hidden-xs-down"><a ng-click="setSort('TotalWords', $event)" href="#">Total Words</a></th>
   </tr>
   </thead>
   <tbody>
@@ -38,6 +39,7 @@
       </a>
     </td>
     <td class="hidden-xs-down">{{student['TotalLetters']}}</td>
+    <td class="hidden-xs-down">{{student['TotalWords']}}</td>
   </tr>
   </tbody>
 </table>

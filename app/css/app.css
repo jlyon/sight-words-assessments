@@ -11,10 +11,13 @@ h1 {
 
 .assessment a.btn {
   margin: 2px;
-  font-family: 'Muli', serif; }
+  font-family: 'Muli', serif;
+  font-size: 18px; }
 
 .assessment .list-items a.btn {
-  min-width: 65px;
+  min-width: 85px;
+  padding-left: 0;
+  padding-right: 0;
   display: inline-block; }
 
 .assessment .list-colors a.btn.active {
@@ -70,6 +73,8 @@ h1 {
     padding-top: 0; }
   .no-print {
     display: none; }
+  .list-group {
+    page-break-inside: avoid; }
   .assessment {
     page-break-after: always; }
   .list-group-item {
