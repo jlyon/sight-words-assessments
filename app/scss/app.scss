@@ -1,7 +1,6 @@
 // Bourbon
 // ---------------------------------
-@import url('https://fonts.googleapis.com/css?family=Muli');
-
+@import url('https://fonts.googleapis.com/css?family=Didact+Gothic');
 
 body {
   padding-top: 70px;
@@ -22,9 +21,15 @@ h1 {
   
   a.btn {
     margin: 2px;
-    font-family: 'Muli', serif;
+    font-family: 'Didact Gothic', serif;
     font-size: 18px;
   }
+  
+  //.font-alt {
+  //  a.btn {
+  //    font-family: 'Didact Gothic', serif;
+  //  }
+  //}
   
   .list-items {
     a.btn {

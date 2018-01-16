@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Muli");
+@import url("https://fonts.googleapis.com/css?family=Didact+Gothic");
 body {
   padding-top: 70px; }
 
@@ -11,7 +11,7 @@ h1 {
 
 .assessment a.btn {
   margin: 2px;
-  font-family: 'Muli', serif;
+  font-family: 'Didact Gothic', serif;
   font-size: 18px; }
 
 .assessment .list-items a.btn {
