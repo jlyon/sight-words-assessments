@@ -12,7 +12,7 @@ h1 {
 .assessment a.btn {
   margin: 2px;
   font-family: 'Didact Gothic', serif;
-  font-size: 18px; }
+  font-size: 20px; }
 
 .assessment .list-items a.btn {
   min-width: 85px;
@@ -71,6 +71,8 @@ h1 {
   body {
     -webkit-print-color-adjust: exact;
     padding-top: 0; }
+    body .container {
+      max-width: 800px; }
   .no-print {
     display: none; }
   .list-group {
