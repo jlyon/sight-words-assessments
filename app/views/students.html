@@ -14,6 +14,7 @@
   <tr>
     <th><input type="checkbox" ng-model="checkall" ng-click="checkallClick()"></th>
     <th><a ng-click="setSort('LastName', $event)" href="#">Name</a></th>
+    <th class="hidden-xs-down"><a ng-click="setSort('ReadingTeacher', $event)" href="#">Teacher</a></th>
     <th class="hidden-xs-down"><a ng-click="setSort('Crew', $event)" href="#">Crew</a></th>
     <th><a ng-click="setSort('LastLettersAssessment', $event)" href="#">Letters</a></th>
     <th><a ng-click="setSort('LastWordsAssessment', $event)" href="#">Words</a></th>
@@ -25,6 +26,7 @@
   <tr ng-repeat="student in students | filter: query | orderBy: order">
     <td><input type="checkbox" ng-model="student.selected"></td>
     <td>{{student['LastName']}}, {{student['FirstName']}}</td>
+    <td class="hidden-xs-down">{{student.ReadingTeacher}}</td>
     <td class="hidden-xs-down">{{student.Crew}}</td>
     <td>
       <a ui-sref="editAssessment({type: 'letters', student: student.id})">
