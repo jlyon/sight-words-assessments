@@ -34,8 +34,7 @@ h1 {
   .list-items {
     a.btn {
       min-width: 85px;
-      padding-left: 0;
-      padding-right: 0;
+      padding: 3px 0;
       display: inline-block
     }
   }
@@ -100,12 +99,48 @@ h1 {
   */
 }
 
+.flashcards {
+  height: 100%;
+  
+  .flashcard {
+    $height: 180px;
+    min-height: $height;
+    width: 50%;
+    float: left;
+    border: 1px solid black;
+    position: relative;
+    page-break-inside: avoid;
+    page-break-after: always;
+    
+    .content {
+      font-family: 'Didact Gothic', serif;
+      font-size: 60px;
+      font-weight: bold;
+      text-align: center;
+      line-height: $height;
+    }
+    
+    .student-name {
+      color: #ccc !important;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
+  }
+}
+
+
 .print .force-no-print {
   display: none;
 }
 
 
+@page {
+  size: letter;
+}
+
 @media print {
+  
   body {
     -webkit-print-color-adjust: exact;
     padding-top: 0;

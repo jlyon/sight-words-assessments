@@ -1,6 +1,7 @@
 <!--<div ng-if="colors && items && assessments">-->
-<div ng-class="show && student['FirstName'] ? '' : 'force-no-print'">
-<h1>{{student['FirstName']}} {{student['LastName']}}'s {{type}} Progress <small>{{student.Crew}} Crew</small></h1>
+<div>
+<div ng-class="show && student['FirstName'] ? '' : 'force-no-print'" ng-if="!showFlashcards">
+<h2 ng-if="student.FirstName">{{student['FirstName']}} {{student['LastName']}}'s {{type}} Progress <small>{{student.Crew}}</small></h2>
 
 
 <div class="form-group row no-print" ng-if="edit">
@@ -60,6 +61,7 @@
 
 <p class="no-print" ng-if="!assessment && edit">
   <button class="btn btn-primary" ng-click="newAssessment()"><i class="fa fa-fw fa-plus-circle"></i>Create New Assessment</button>
+  <button class="btn btn-default" ng-click="toggleShowFlashcards()"><i class="fa fa-fw fa-th"></i>Create Flashcards</button>
 </p>
 
 <form class="assessment" ng-class="!assessment ? 'form-disabled' : ''">
@@ -122,4 +124,37 @@
   </div>
 
 </form>
+</div>
+
+
+<div class="list-group list-items" ng-if="showFlashcards">
+  <div class="no-print">
+    <h2>Print {{type}} Flashcards for {{student['FirstName']}} {{student['LastName']}}</h2>
+    <p>
+      <button class="btn btn-primary" ng-click="toggleShowFlashcards()"><i class="fa fa-fw fa-chevron-left"></i>Back to Assessments</button>
+    </p>
+
+    <hr/>
+    <form class="form-inline">
+      <div class="form-group">
+        <label>Number of pages</label>
+        <input type="text" class="form-control" ng-model="flashcardPages">
+      </div>
+      <button class="btn btn-default" ng-click="updateFlashcards(flashcardPages)">Update</button>
+    </form>
+    <hr/>
+    <p>Showing {{flashcards.length}} flashcards</p>
+  </div>
+
+  <div class="flashcards">
+    <div ng-repeat="item in flashcards"
+         class="flashcard"
+         ng-click="toggleWord(item.id)">
+      <span class="color-swatch color-{{item.Color[0]}}" class="btn"></span>
+      <div class="student-name">{{student['FirstName']}} {{student['LastName']}}</div>
+      <div class="content">{{item.Item}}</div>
+    </div>
+  </div>
+</div>
+
 </div>

@@ -226,6 +226,25 @@ angular.module('app')
           });
         }
 
+        $scope.showFlashcards = false;
+        $scope.flashcardPages = 2;
+        $scope.toggleShowFlashcards = function() {
+          $scope.showFlashcards = $scope.showFlashcards ? false : true;
+          $scope.updateFlashcards($scope.flashcardPages);
+        }
+
+        $scope.updateFlashcards = function(pages) {
+          var items = [];
+          var count = 0;
+          for (var i=0; i<$scope.items.length; i++) {
+            if(count < pages*10 && !$scope.disabledItems[$scope.items[i].id]){
+              items.push($scope.items[i]);
+              count++;
+            }
+          }
+          $scope.flashcards = items;
+        }
+
 
 
       }
