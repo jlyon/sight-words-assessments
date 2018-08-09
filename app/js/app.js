@@ -316,7 +316,6 @@ angular.module('app', [
                   $scope.type = students[0].TotalLetters >= 25 ? 'words' : 'letters';
                   $scope.$apply();
                 }
-                console.log(students);
               });
 
             }
