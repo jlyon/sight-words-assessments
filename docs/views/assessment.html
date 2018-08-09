@@ -1,8 +1,8 @@
 <!--<div ng-if="colors && items && assessments">-->
 <div>
-<div ng-class="show && student['FirstName'] ? '' : 'force-no-print'" ng-if="!showFlashcards">
-<h2 ng-if="student.FirstName">{{student['FirstName']}} {{student['LastName']}}'s {{type}} Progress <small>{{student.Crew}}</small></h2>
 
+<div ng-class="show && student['FirstName'] ? '' : 'force-no-print'" ng-if="!toggle.print && !toggle.online">
+<h2 ng-if="student.FirstName">{{student['FirstName']}} {{student['LastName']}}'s {{type}} Progress <small>{{student.Crew}}</small></h2>
 
 <div class="form-group row no-print" ng-if="edit">
   <div class="col-sm-12">
@@ -61,7 +61,8 @@
 
 <p class="no-print" ng-if="!assessment && edit">
   <button class="btn btn-primary" ng-click="newAssessment()"><i class="fa fa-fw fa-plus-circle"></i>Create New Assessment</button>
-  <button class="btn btn-default" ng-click="toggleShowFlashcards()"><i class="fa fa-fw fa-th"></i>Create Flashcards</button>
+  <button class="btn btn-default" ng-click="toggleFlashcards('print')"><i class="fa fa-fw fa-th"></i>Print Flashcards</button>
+  <button class="btn btn-default" ng-click="toggleFlashcards('online')"><i class="fa fa-fw fa-window-maximize"></i>Online Flashcards</button>
 </p>
 
 <form class="assessment" ng-class="!assessment ? 'form-disabled' : ''">
@@ -127,11 +128,11 @@
 </div>
 
 
-<div class="list-group list-items" ng-if="showFlashcards">
+<div class="list-group list-items" ng-if="toggle.print">
   <div class="no-print">
     <h2>Print {{type}} Flashcards for {{student['FirstName']}} {{student['LastName']}}</h2>
     <p>
-      <button class="btn btn-primary" ng-click="toggleShowFlashcards()"><i class="fa fa-fw fa-chevron-left"></i>Back to Assessments</button>
+      <button class="btn btn-primary" ng-click="toggleFlashcards('print')"><i class="fa fa-fw fa-chevron-left"></i>Back to Assessments</button>
     </p>
 
     <hr/>
@@ -155,6 +156,10 @@
       <div class="content">{{item.Item}}</div>
     </div>
   </div>
+</div>
+
+<div ng-if="toggle.online && flashcards">
+  <flashcards cards="flashcards" colors="colors"></flashcards>
 </div>
 
 </div>

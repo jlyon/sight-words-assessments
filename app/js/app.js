@@ -11,12 +11,13 @@
 
 angular.module('app', [
   'ui.router',
-  'ngAnimate'
+  'ngAnimate',
+  'firebase'
 ])
 
   .run(
-    ['$sce', '$timeout', '$rootScope', '$state', '$stateParams',
-      function ($sce, $timeout, $rootScope, $state, $stateParams) {
+    ['$sce', '$timeout', '$rootScope', '$state', '$stateParams', '$window', '$firebaseAuth',
+      function ($sce, $timeout, $rootScope, $state, $stateParams, $window, $firebaseAuth) {
 
         // It's very handy to add references to $state and $stateParams to the
         // $rootScope
@@ -24,9 +25,121 @@ angular.module('app', [
         $rootScope.$stateParams = $stateParams;
         $rootScope.cache = {};
 
-        var Airtable = require('airtable');
-        $rootScope.Airtable = new Airtable({apiKey: 'keyNIbNk17BU31gT8'}).base('appWyOO3dIQGwt4wm');
+        $rootScope.config = {
+          years: [
+            {
+              label: '2018-19',
+              base: 'appWyOO3dIQGwt4wm',
+              key: 'keyNIbNk17BU31gT8',
+            },
+            {
+              label: '2017-18',
+              base: 'appKLD3WxfSgA0ad4',
+              key: 'keyNIbNk17BU31gT8',
+            },
+          ],
+          admins: [
+            'jeff@albatrossdigital.com',
+            'lisa.perloff@lighthousecharter.org',
+            'virginia.mcmanus@lighthousecharter.org',
+            'ana.garcia@lighthousecharter.or',
+            'daelana.burrell@lighthousecharter.org',
+            'tiffany.do@lighthousecharter.org',
+            'maricruz.martinez@lighthousecharter.org',
+            'robbie.torney@lighthousecharter.org'
+          ],
+          default_year: '2018-19'
+        }
 
+        // Handle year changing
+        $rootScope.activeYear = $window.localStorage.getItem('sightWordsAssessmentYear') ? JSON.parse($window.localStorage.getItem('sightWordsAssessmentYear')) : $rootScope.config.years[0];
+        $rootScope.setYear = function(year, e) {
+          e.preventDefault();
+          $window.localStorage.setItem('sightWordsAssessmentYear', JSON.stringify(year));
+          $rootScope.activeYear = year;
+          $state.go('students', {reload: true});
+          $window.location.href = '/?'+ new Date().getTime() +'#/admin/students';
+        }
+
+        // Authentication
+        $rootScope.auth = $firebaseAuth();
+        var firebaseUser = $window.localStorage.getItem('firebaseUser');
+        firebaseUser = firebaseUser ? JSON.parse(firebaseUser) : null;
+        $rootScope.firebaseUser = firebaseUser;
+        console.log(firebaseUser);
+        // any time auth state changes, add the user data to scope
+        $rootScope.auth.$onAuthStateChanged(function(firebaseUser) {
+          firebaseUser = JSON.parse(JSON.stringify(firebaseUser));
+          if (!firebaseUser) {
+            role = null
+          }
+          else {
+            var role;
+            if (firebaseUser && firebaseUser != null && firebaseUser.email && $rootScope.config.admins.indexOf(firebaseUser.email) !== -1) {
+              role = 'admin';
+            }
+            else {
+              role = 'student';
+            }
+            firebaseUser.role = role;
+            firebaseUser.time = new Date();
+            firebaseUser.providerData = undefined;
+          }
+
+          if ($rootScope.firebaseUser != firebaseUser) {
+            $rootScope.firebaseUser = firebaseUser;
+            $window.localStorage.setItem('firebaseUser', JSON.stringify(firebaseUser));
+          }
+          //$rootScope.apply();
+          console.log(firebaseUser);
+
+          if (firebaseUser && $state.current.name === 'login') {
+            if (role === 'admin') {
+              $state.go('students');
+            }
+            else {
+              $state.go('myFlashcards');
+            }
+          }
+        });
+
+        // Toggle topnav dropdowns
+        var resetDropdown = function() {
+          $rootScope.dropdown = {
+            year: '',
+            user: ''
+          };
+        }
+        resetDropdown()
+
+        $rootScope.toggleDropdown = function(key, e) {
+          e.preventDefault();
+          $rootScope.dropdown[key] = $rootScope.dropdown[key] === 'open' ? '' : 'open';
+        }
+
+        // Check login
+        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+          if (toState.auth) {
+            if (!$rootScope.firebaseUser) {
+              event.preventDefault();
+              $state.go('login', {msg: 'You need to login'});
+            }
+            if (toState.auth && toState.auth != $rootScope.firebaseUser.role) {
+              event.preventDefault();
+              $state.go('login', {msg: 'Sorry, you don\'t have access.'});
+            }
+          }
+          resetDropdown();
+        });
+        $rootScope.logout = function(e) {
+          $rootScope.firebaseUser = null;
+          $window.localStorage.setItem('firebaseUser', null);
+          $rootScope.auth.$signOut();
+        }
+
+        // Airtable
+        var Airtable = require('airtable');
+        $rootScope.Airtable = new Airtable({apiKey: $rootScope.activeYear.key}).base($rootScope.activeYear.base);
 
       }
     ]
@@ -45,16 +158,31 @@ angular.module('app', [
         // Use $urlRouterProvider to configure any redirects (when) and invalid
         // urls (otherwise).
         $urlRouterProvider
-          .when('/admin', '/admin/students');
-
-        //.otherwise(token ? '/sites' : '/start');
+          .when('/admin', '/admin/students')
+          .when('/me', '/my/flashcards')
+          .otherwise('/');
 
         //////////////////////////
         // State Configurations //
         //////////////////////////
         $stateProvider
+
+          .state("login", {
+            url: '/?msg',
+            templateUrl: 'views/login.html',
+            controller: function ($scope, $rootScope, $state, $filter, $timeout) {
+              $scope.clickLogin = function(e) {
+                e.preventDefault();
+                console.log($state);
+                $scope.msg = $state.params.msg;
+              }
+            }
+          })
+
+
           .state("students", {
             url: '/admin/students',
+            auth: 'admin',
             templateUrl: 'views/students.html',
             // auth: true,
             /*resolve: {
@@ -122,7 +250,8 @@ angular.module('app', [
 
           .state("editAssessment", {
             url: '/admin/student/:student/:type',
-            template: '<div assessment edit="true" type="type" student="student"></div>',
+            auth: 'admin',
+            template: '<assessment edit="true" type="type" student="student"></assessment>',
             controller: function ($scope, $rootScope, $state, $filter, $http) {
               $rootScope.showAdmin = true;
               $scope.type = $state.params.type;
@@ -132,7 +261,7 @@ angular.module('app', [
 
           .state("viewAssessment", {
             url: '/student/:student/:type',
-            template: '<div assessment type="type" student="student"></div>',
+            template: '<assessment type="type" student="student"></assessment>',
             controller: function ($scope, $rootScope, $state, $filter, $http) {
               $scope.type = $state.params.type;
               $scope.student = $state.params.student;
@@ -142,6 +271,7 @@ angular.module('app', [
           .state("printAssessment", {
             url: '/print/:students',
             templateUrl: 'views/print.html',
+            auth: 'admin',
             controller: function ($scope, $rootScope, $state, $filter, $http) {
               var students = $state.params.students.split(',');
               $scope.total = students.length;
@@ -165,6 +295,80 @@ angular.module('app', [
               }
               timeout();
               */
+            }
+          })
+
+          .state("myFlashcards", {
+            url: '/my/flashcards/:type',
+            template: '<assessment type="type" student="student" force-flashcards="true" ng-if="student"></assessment>',
+            controller: function ($scope, $rootScope, $state, $filter, $timeout) {
+
+              var formula = '{Email} = "' + $rootScope.firebaseUser.email + '"';
+              var students = [];
+              $rootScope.Airtable('Students').select({
+                filterByFormula: formula
+              }).eachPage(function page(records, fetchNextPage) {
+                records.forEach(function (record) {
+                  record.fields.id = record.id;
+                  students.push(record.fields);
+                });
+                fetchNextPage();
+              }, function done(error) {
+                if (students.length === 1) {
+                  $scope.student = students[0].id;
+                  $scope.type = students[0].TotalLetters >= 25 ? 'words' : 'letters';
+                  $scope.$apply();
+                }
+                console.log(students);
+              });
+
+            }
+          })
+
+          .state("studentFlashcards", {
+            url: '/flashcards/:student/:type',
+            template: '<assessment type="type" student="student" force-flashcards="true"></assessment>',
+            controller: function ($scope, $rootScope, $state, $filter, $timeout) {
+              $scope.student = $state.params.student;
+              $scope.type = $state.params.type;
+            }
+          })
+
+          .state("studentSearch", {
+            url: '/search',
+            templateUrl: 'views/student-search.html',
+            controller: function ($scope, $rootScope, $state, $filter, $timeout) {
+
+              var formula = '{Grade} = 0';
+
+              var data = [];
+              $rootScope.Airtable('Students').select({
+                filterByFormula: formula,
+                sort: [
+                  {field: 'LastName', direction: 'asc'}
+                ]
+              }).eachPage(function page(records, fetchNextPage) {
+                records.forEach(function (record) {
+                  record.fields.id = record.id;
+                  data.push(record.fields);
+                });
+
+                fetchNextPage();
+              }, function done(error) {
+                $scope.students = data;
+                console.log($scope.students);
+                $scope.$apply();
+              });
+
+              $scope.go = function(student, e) {
+                e.preventDefault();
+                $state.go('studentFlashcards', {student: student.id, type: student.TotalLetters >= 25 ? 'words' : 'letters'});
+              }
+
+              $timeout(function() {
+                document.getElementById('student-search').focus();
+              },0)
+
             }
           })
 

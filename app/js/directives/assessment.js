@@ -2,7 +2,8 @@ angular.module('app')
 
   .directive('assessment', function($rootScope, $state, $sce, $timeout) {
     return {
-      restrict: 'A',
+      restrict: 'E',
+      restrict: 'E',
       replace: true,
       transclude: true,
       scope: {
@@ -10,7 +11,8 @@ angular.module('app')
         student: '=',
         assessment: '=',
         edit: '=',
-        print: '@'
+        print: '@',
+        forceFlashcards: '@'
       },
       templateUrl: 'views/assessment.html',
       link: function($scope, $element, $attrs, $window) {
@@ -120,6 +122,9 @@ angular.module('app')
               if (cb) {
                 cb(assessment, assessments);
               }
+              if ($scope.toggle.online) {
+                $scope.updateFlashcards($scope.printFlashcardPages);
+              }
               $scope.$apply();
             });
           });
@@ -226,11 +231,15 @@ angular.module('app')
           });
         }
 
-        $scope.showFlashcards = false;
-        $scope.flashcardPages = 2;
-        $scope.toggleShowFlashcards = function() {
-          $scope.showFlashcards = $scope.showFlashcards ? false : true;
-          $scope.updateFlashcards($scope.flashcardPages);
+        $scope.toggle = {
+          print: false,
+          online: $scope.forceFlashcards ? $scope.forceFlashcards : false,
+        }
+
+        $scope.printFlashcardPages = 2;
+        $scope.toggleFlashcards = function(key) {
+          $scope.toggle[key] = $scope.toggle[key] ? false : true;
+          $scope.updateFlashcards($scope.printFlashcardPages);
         }
 
         $scope.updateFlashcards = function(pages) {
@@ -244,8 +253,6 @@ angular.module('app')
           }
           $scope.flashcards = items;
         }
-
-
 
       }
     };

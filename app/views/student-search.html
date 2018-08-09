@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-md-6">
+    <input id="student-search" class="student-search input-lg" ng-model="query" placeholder="Your name" />
+  </div>
+</div>
+
+<div class="row" ng-if="query.length">
+  <div class="col-sm-4 student" ng-click="go(student, $event)" ng-repeat="student in students | filter: query">
+    <div class="panel panel-default">
+      <div class="panel-body">{{student.FirstName}} {{student.LastName}}</div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+  .student-search {
+    margin-bottom: 2em;
+  }
+  .student {
+    font-size: 1.3em;
+  }
+  .student:hover {
+    cursor: pointer;
+  }
+</style>
