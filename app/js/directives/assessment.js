@@ -9,7 +9,6 @@ angular.module('app')
       scope: {
         type: '=',
         student: '=',
-        assessment: '=',
         edit: '=',
         print: '@',
         forceFlashcards: '@'
@@ -247,7 +246,19 @@ angular.module('app')
           var count = 0;
           for (var i=0; i<$scope.items.length; i++) {
             if(count < pages*10 && !$scope.disabledItems[$scope.items[i].id]){
-              items.push($scope.items[i]);
+              var item = $scope.items[i];
+              for (var j=0; j<$scope.groups.length; j++) {
+                if ($scope.groups[j].id == item.Group[0]) {
+                  var colorLabel = $scope.groups[j].Label.split('-')[0].trim();
+                  for (var k=0; k<$scope.colors.length; k++) {
+                    if ($scope.colors[k].Label.toLowerCase() === colorLabel.toLowerCase()) {
+                      item.Color = '#' + $scope.colors[k].Code;
+                    }
+                  }
+                }
+              }
+
+              items.push(item);
               count++;
             }
           }

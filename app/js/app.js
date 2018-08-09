@@ -31,11 +31,13 @@ angular.module('app', [
               label: '2018-19',
               base: 'appWyOO3dIQGwt4wm',
               key: 'keyNIbNk17BU31gT8',
+              table: 'tblsufiLPPiGhgOWd'
             },
             {
               label: '2017-18',
               base: 'appKLD3WxfSgA0ad4',
               key: 'keyNIbNk17BU31gT8',
+              table: 'tblgH4xE9mkglNUDV'
             },
           ],
           admins: [
@@ -66,7 +68,7 @@ angular.module('app', [
         var firebaseUser = $window.localStorage.getItem('firebaseUser');
         firebaseUser = firebaseUser ? JSON.parse(firebaseUser) : null;
         $rootScope.firebaseUser = firebaseUser;
-        console.log(firebaseUser);
+
         // any time auth state changes, add the user data to scope
         $rootScope.auth.$onAuthStateChanged(function(firebaseUser) {
           firebaseUser = JSON.parse(JSON.stringify(firebaseUser));
@@ -90,8 +92,6 @@ angular.module('app', [
             $rootScope.firebaseUser = firebaseUser;
             $window.localStorage.setItem('firebaseUser', JSON.stringify(firebaseUser));
           }
-          //$rootScope.apply();
-          console.log(firebaseUser);
 
           if (firebaseUser && $state.current.name === 'login') {
             if (role === 'admin') {
@@ -191,8 +191,6 @@ angular.module('app', [
                 }
             },*/
             controller: function ($scope, $rootScope, $state, $filter, $http) {
-              $rootScope.showAdmin = true;
-
               var data = [];
               $rootScope.Airtable('Students').select({
                 sort: [
@@ -253,7 +251,6 @@ angular.module('app', [
             auth: 'admin',
             template: '<assessment edit="true" type="type" student="student"></assessment>',
             controller: function ($scope, $rootScope, $state, $filter, $http) {
-              $rootScope.showAdmin = true;
               $scope.type = $state.params.type;
               $scope.student = $state.params.student;
             }

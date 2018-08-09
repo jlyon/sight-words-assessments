@@ -1,6 +1,6 @@
 angular.module('app')
 
-  .directive('flashcards', function($rootScope, $state, $sce, $timeout) {
+  .directive('flashcards', function($rootScope, $state, $sce, $timeout, $window) {
     return {
       restrict: 'E',
       replace: true,
@@ -10,7 +10,7 @@ angular.module('app')
         colors: '='
       },
       templateUrl: 'views/flashcards.html',
-      link: function($scope, $element, $attrs, $window) {
+      link: function($scope, $element, $attrs) {
 
         // var url  = 'https://docs.google.com/spreadsheets/d/1pyCptrdv3-laxJPSbXda_bfC5HiyOlpeuP_LVgBVuxA/pubhtml';
         // url = $state.params.doc;
@@ -44,8 +44,6 @@ angular.module('app')
         //   // or server returns response with an error status.
         // });
 
-        console.log($attrs, $scope);
-
 
         // Handle colors
         // @todo
@@ -62,7 +60,7 @@ angular.module('app')
         for (var i=0; i<$scope.cards.length; i++) {
           out.push({
             question: $scope.cards[i].Item,
-            color: null,//color,
+            color: $scope.cards[i].Color,
             recording: $scope.cards[i].Recording,
             answer: null,
             pronunciation: null
@@ -139,6 +137,12 @@ angular.module('app')
           }
 
           return array;
+        }
+
+        $scope.back = function(e) {
+          e.preventDefault();
+          // @todo temp hack
+          $window.location.reload();
         }
 
       }
