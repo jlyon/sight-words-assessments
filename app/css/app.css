@@ -84,6 +84,17 @@ h1 {
       position: absolute;
       top: 5px;
       right: 5px; }
+    .flashcards .flashcard .color-swatch {
+      width: 0px;
+      height: 0px;
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      display: block;
+      border-radius: 10px;
+      border: 10px;
+      border-style: solid;
+      -webkit-print-color-adjust: exact; }
 
 .print .force-no-print {
   display: none; }

@@ -151,7 +151,7 @@
     <div ng-repeat="item in flashcards"
          class="flashcard"
          ng-click="toggleWord(item.id)">
-      <span class="color-swatch color-{{item.Color[0]}}" class="btn"></span>
+      <span class="color-swatch" ng-style="{borderColor: item.Color}"></span>
       <div class="student-name">{{student['FirstName']}} {{student['LastName']}}</div>
       <div class="content">{{item.Item}}</div>
     </div>

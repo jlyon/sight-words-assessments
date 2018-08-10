@@ -126,6 +126,19 @@ h1 {
       top: 5px;
       right: 5px;
     }
+    
+    .color-swatch {
+      width: 0px;
+      height: 0px;
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      display: block;
+      border-radius: 10px;
+      border: 10px;
+      border-style: solid;
+      -webkit-print-color-adjust: exact;
+    }
   }
 }
 
