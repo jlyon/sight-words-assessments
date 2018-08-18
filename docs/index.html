@@ -52,12 +52,12 @@
       -->
       <span class="navbar-brand"><a href="#" ui-sref="login">Lodestar Sight Words</a></span>
     </div>
-    <ul class="nav navbar-nav" ng-if="firebaseUser.role == 'admin'" ng-class="firebaseUser && firebaseUser.role == 'admin' ? '' : 'hidden'">
+    <ul class="nav navbar-nav" ng-if="firebaseUser.role.role == 'admin'" ng-class="firebaseUser && firebaseUser.role.role == 'admin' ? '' : 'hidden'">
       <li><a ui-sref="students">List Students</a></li>
       <li><a ng-href="https://airtable.com/{{activeYear.table}}" target="_blank">Airtable</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li class="dropdown" ng-class="dropdown.year" ng-if="firebaseUser.role == 'admin'" ng-class="firebaseUser && firebaseUser.role == 'admin' ? '' : 'hidden'">
+      <li class="dropdown" ng-class="dropdown.year" ng-if="firebaseUser.role.role == 'admin'" ng-class="firebaseUser && firebaseUser.role.role == 'admin' ? '' : 'hidden'">
         <a href="#" class="dropdown-toggle" ng-click="toggleDropdown('year', $event)">Year: {{activeYear.label}}<span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li ng-repeat="year in config.years">
@@ -77,8 +77,6 @@
           <li><a href="#" ng-click="logout($event)">Sign Out</a></li>
         </ul>
       </li>
-
-
     </ul>
       <!--
       <div id="navbar" class="navbar-collapse collapse">

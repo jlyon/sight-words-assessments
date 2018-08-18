@@ -29,7 +29,7 @@ angular.module('app', [
           years: [
             {
               label: '2018-19',
-              base: 'appWyOO3dIQGwt4wm',
+              base: 'appV6NqAqUOyQvJUW',
               key: 'keyNIbNk17BU31gT8',
               table: 'tblsufiLPPiGhgOWd'
             },
@@ -40,16 +40,35 @@ angular.module('app', [
               table: 'tblgH4xE9mkglNUDV'
             },
           ],
-          admins: [
-            'jeff@albatrossdigital.com',
-            'lisa.perloff@lighthousecharter.org',
-            'virginia.mcmanus@lighthousecharter.org',
-            'ana.garcia@lighthousecharter.or',
-            'daelana.burrell@lighthousecharter.org',
-            'tiffany.do@lighthousecharter.org',
-            'maricruz.martinez@lighthousecharter.org',
-            'robbie.torney@lighthousecharter.org'
-          ],
+          admins: {
+            'jeff@albatrossdigital.com': {
+              role: 'admin'
+            },
+            'lisa.perloff@lighthousecharter.org': {
+              role: 'admin',
+              teacher: 'lisa'
+            },
+            'virginia.mcmanus@lighthousecharter.org': {
+              role: 'admin',
+              teacher: 'virginia'
+            },
+            'ana.garcia@lighthousecharter.or': {
+              role: 'admin',
+              teacher: 'ana'
+            },
+            'daelana.burrell@lighthousecharter.org': {
+              role: 'admin'
+            },
+            'tiffany.do@lighthousecharter.org': {
+              role: 'admin'
+            },
+            'maricruz.martinez@lighthousecharter.org': {
+              role: 'admin'
+            },
+            'robbie.torney@lighthousecharter.org': {
+              role: 'admin'
+            }
+          },
           default_year: '2018-19'
         }
 
@@ -77,11 +96,16 @@ angular.module('app', [
           }
           else {
             var role;
-            if (firebaseUser && firebaseUser != null && firebaseUser.email && $rootScope.config.admins.indexOf(firebaseUser.email) !== -1) {
-              role = 'admin';
+            var role;
+            if (firebaseUser && firebaseUser != null && firebaseUser.email && $rootScope.config.admins[firebaseUser.email] !== undefined) {
+              role = $rootScope.config.admins[firebaseUser.email];
             }
             else {
-              role = 'student';
+              role = {
+                role: 'student'
+              };
+              // There is no non-admin acceess
+              return $state.go('login', {msg: 'Sorry, you do not have access.'});
             }
             firebaseUser.role = role;
             firebaseUser.time = new Date();
@@ -94,12 +118,13 @@ angular.module('app', [
           }
 
           if (firebaseUser && $state.current.name === 'login') {
-            if (role === 'admin') {
-              $state.go('students');
+            if (role.role === 'admin') {
+              var params = (role.teacher != undefined) ? { query: role.teacher } : {};
+              $state.go('students', params);
             }
-            else {
-              $state.go('myFlashcards');
-            }
+            // else {
+            //   $state.go('myFlashcards');
+            // }
           }
         });
 
@@ -124,7 +149,7 @@ angular.module('app', [
               event.preventDefault();
               $state.go('login', {msg: 'You need to login'});
             }
-            if (toState.auth && toState.auth != $rootScope.firebaseUser.role) {
+            if (toState.auth && toState.auth != $rootScope.firebaseUser.role.role) {
               event.preventDefault();
               $state.go('login', {msg: 'Sorry, you don\'t have access.'});
             }
@@ -171,17 +196,17 @@ angular.module('app', [
             url: '/?msg',
             templateUrl: 'views/login.html',
             controller: function ($scope, $rootScope, $state, $filter, $timeout) {
+              $scope.msg = $state.params.msg;
+
               $scope.clickLogin = function(e) {
                 e.preventDefault();
-                console.log($state);
-                $scope.msg = $state.params.msg;
               }
             }
           })
 
 
           .state("students", {
-            url: '/admin/students',
+            url: '/admin/students/:query',
             auth: 'admin',
             templateUrl: 'views/students.html',
             // auth: true,
@@ -208,7 +233,7 @@ angular.module('app', [
                 $scope.$apply();
               });
 
-              $scope.query = '';
+              $scope.query = $state.params.query;
               $scope.order = 'Last+Name';
               $scope.setSort = function(key, e) {
                 e.preventDefault();
