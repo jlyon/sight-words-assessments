@@ -2,7 +2,7 @@ angular.module('311AppParent').run(['$templateCache', function($templateCache) {
   'use strict';
 
   $templateCache.put('views/assessment.html',
-    "<!--<div ng-if=\"colors && items && assessments\">--><div><div ng-class=\"show && student['FirstName'] ? '' : 'force-no-print'\" ng-if=\"!toggle.print && !toggle.online\"><h2 ng-if=\"student.FirstName\">{{student['FirstName']}} {{student['LastName']}}'s {{type}} Progress <small>{{student.Crew}}</small></h2><div class=\"form-group row no-print\" ng-if=\"edit\"><div class=\"col-sm-12\"><div class=\"input-group\" style=\"max-width: 500px\"><span class=\"input-group-addon\" id=\"basic-addon1\"><i class=\"fa fa-fw fa-link\"></i></span> <input type=\"text\" class=\"form-control\" aria-describedby=\"basic-addon1\" ng-model=\"link\" ng-click=\"linkClick($event)\"></div></div></div><span ng-repeat=\"color in colors\"><style>.color-{{color.id}} {\n" +
+    "<!--<div ng-if=\"colors && items && assessments\">--><div><div ng-class=\"show && student['FirstName'] ? '' : 'force-no-print'\" ng-if=\"!toggle.print && !toggle.online\"><h2 ng-if=\"student.FirstName\">{{student['FirstName']}} {{student['LastName']}}'s {{type}} Progress <small>{{student.Crew}}</small></h2><div class=\"form-group row no-print\" ng-if=\"edit\"><div class=\"col-sm-4\"><div class=\"input-group\" style=\"max-width: 500px\"><span class=\"input-group-addon\" id=\"basic-addon1\"><i class=\"fa fa-fw fa-line-chart\"></i>Overview</span> <input type=\"text\" class=\"form-control\" aria-describedby=\"basic-addon1\" ng-model=\"link\" ng-click=\"linkClick($event)\"></div></div><div class=\"col-sm-4\"><div class=\"input-group\" style=\"max-width: 500px\"><span class=\"input-group-addon\" id=\"basic-addon2\"><i class=\"fa fa-fw fa-window-maximize\"></i>Flashcards</span> <input type=\"text\" class=\"form-control\" aria-describedby=\"basic-addon1\" ng-model=\"flashcardsLink\" ng-click=\"linkClick($event)\"></div></div></div><span ng-repeat=\"color in colors\"><style>.color-{{color.id}} {\n" +
     "      background-color: #{{color.Code}} !important;\n" +
     "    }</style></span><div class=\"row assessments\"><div class=\"col-xs-12 col-sm-7 col-lg-4\"><!--<table ng-if=\"assessments.length\" class=\"table table-striped\">\n" +
     "      <thead>\n" +
@@ -134,15 +134,7 @@ angular.module('311AppParent').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('views/student-search.html',
-    "<div class=\"row\"><div class=\"col-md-6\"><input id=\"student-search\" class=\"student-search input-lg\" ng-model=\"query\" placeholder=\"Your name\"></div></div><div class=\"row\" ng-if=\"query.length\"><div class=\"col-sm-4 student\" ng-click=\"go(student, $event)\" ng-repeat=\"student in students | filter: query\"><div class=\"panel panel-default\"><div class=\"panel-body\">{{student.FirstName}} {{student.LastName}}</div></div></div></div><style>.student-search {\n" +
-    "    margin-bottom: 2em;\n" +
-    "  }\n" +
-    "  .student {\n" +
-    "    font-size: 1.3em;\n" +
-    "  }\n" +
-    "  .student:hover {\n" +
-    "    cursor: pointer;\n" +
-    "  }</style>"
+    "<div class=\"student-search\"><div class=\"row\"><div class=\"col-md-6\"><input id=\"student-search\" class=\"student-search-input input-lg\" ng-model=\"query\" placeholder=\"Your name\"></div></div><div class=\"row\" ng-if=\"query.length\"><div class=\"col-sm-4 student\" ng-click=\"go(student, $event)\" ng-repeat=\"student in students | filter:query:startsWith\"><div class=\"panel panel-default\"><div class=\"panel-body\">{{student.FirstName}} {{student.LastName}}</div></div></div></div></div>"
   );
 
 

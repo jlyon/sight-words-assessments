@@ -5,10 +5,16 @@
 <h2 ng-if="student.FirstName">{{student['FirstName']}} {{student['LastName']}}'s {{type}} Progress <small>{{student.Crew}}</small></h2>
 
 <div class="form-group row no-print" ng-if="edit">
-  <div class="col-sm-12">
+  <div class="col-sm-4">
     <div class="input-group" style="max-width: 500px;">
-      <span class="input-group-addon" id="basic-addon1"><i class="fa fa-fw fa-link"></i></span>
+      <span class="input-group-addon" id="basic-addon1"><i class="fa fa-fw fa-line-chart"></i>Overview</span>
       <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="link" ng-click="linkClick($event)" />
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="input-group" style="max-width: 500px;">
+      <span class="input-group-addon" id="basic-addon2"><i class="fa fa-fw fa-window-maximize"></i>Flashcards</span>
+      <input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="flashcardsLink" ng-click="linkClick($event)" />
     </div>
   </div>
 </div>

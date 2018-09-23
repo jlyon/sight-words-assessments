@@ -191,3 +191,48 @@ h1 {
   }
 }
 
+
+
+.student-search {
+  
+  .student-search-input {
+    margin-bottom: 2em;
+  }
+  
+  .student {
+    font-size: 1.3em;
+  }
+  
+  .student:hover {
+    cursor: pointer;
+  }
+  
+  .student:nth-child(5n + 1) .panel{
+    background-color: #ff6658;
+  }
+  .student:nth-child(5n + 5) .panel{
+    background-color: #D6DBD2;
+  }
+  .student:nth-child(5n + 2) .panel{
+    background-color: #F19E39;
+  }
+  .student:nth-child(5n + 3) .panel{
+    background-color: #b687d3;
+  }
+  .student:nth-child(5n + 4) .panel{
+    background-color: #AFE8CC;
+  }
+  
+  
+          
+          
+          
+          
+          
+          
+  
+  
+  
+  
+  
+}

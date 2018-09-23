@@ -377,9 +377,13 @@ angular.module('app', [
                 fetchNextPage();
               }, function done(error) {
                 $scope.students = data;
-                console.log($scope.students);
                 $scope.$apply();
               });
+
+              $scope.startsWith = function (actual, expected) {
+                var lowerStr = (actual.FirstName + "").toLowerCase();
+                return lowerStr.indexOf(expected.toLowerCase()) === 0;
+              }
 
               $scope.go = function(student, e) {
                 e.preventDefault();

@@ -120,3 +120,27 @@ h1 {
 @media (max-width: 600px) {
   .hidden-xs-down {
     display: none; } }
+
+.student-search .student-search-input {
+  margin-bottom: 2em; }
+
+.student-search .student {
+  font-size: 1.3em; }
+
+.student-search .student:hover {
+  cursor: pointer; }
+
+.student-search .student:nth-child(5n + 1) .panel {
+  background-color: #ff6658; }
+
+.student-search .student:nth-child(5n + 5) .panel {
+  background-color: #D6DBD2; }
+
+.student-search .student:nth-child(5n + 2) .panel {
+  background-color: #F19E39; }
+
+.student-search .student:nth-child(5n + 3) .panel {
+  background-color: #b687d3; }
+
+.student-search .student:nth-child(5n + 4) .panel {
+  background-color: #AFE8CC; }

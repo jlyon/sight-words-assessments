@@ -21,6 +21,7 @@ angular.module('app')
 
         $timeout(function(){
           $scope.link = window.location.href.replace('/admin', '');
+          $scope.flashcardsLink = $scope.link.replace('/student', '/flashcards');
         }, 0);
 
         var colors = [];
@@ -244,6 +245,14 @@ angular.module('app')
         $scope.updateFlashcards = function(pages) {
           var items = [];
           var count = 0;
+
+          // Words was having issues with load order
+          if (!$scope.items) {
+            $timeout(function(){
+              $scope.updateFlashcards(pages);
+            }, 100);
+          }
+
           for (var i=0; i<$scope.items.length; i++) {
             if(count < pages*10 && !$scope.disabledItems[$scope.items[i].id]){
               var item = $scope.items[i];
