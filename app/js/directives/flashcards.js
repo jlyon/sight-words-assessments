@@ -63,7 +63,8 @@ angular.module('app')
             color: $scope.cards[i].Color,
             recording: $scope.cards[i].Recording,
             answer: null,
-            pronunciation: null
+            pronunciation: null,
+            icon: $scope.cards[i].GroupLabel.indexOf('Sounds') != -1 ? 'fa-assistive-listening-systems' : false
           });
         }
         out = shuffle(out);

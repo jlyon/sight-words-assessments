@@ -258,6 +258,7 @@ angular.module('app')
               var item = $scope.items[i];
               for (var j=0; j<$scope.groups.length; j++) {
                 if ($scope.groups[j].id == item.Group[0]) {
+                  item.GroupLabel = $scope.groups[j].Label;
                   var colorLabel = $scope.groups[j].Label.split('-')[0].trim();
                   for (var k=0; k<$scope.colors.length; k++) {
                     if ($scope.colors[k].Label.toLowerCase() === colorLabel.toLowerCase()) {
