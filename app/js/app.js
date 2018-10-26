@@ -104,8 +104,6 @@ angular.module('app', [
               role = {
                 role: 'student'
               };
-              // There is no non-admin acceess
-              return $state.go('login', {msg: 'Sorry, you do not have access.'});
             }
             firebaseUser.role = role;
             firebaseUser.time = new Date();
@@ -122,9 +120,9 @@ angular.module('app', [
               var params = (role.teacher != undefined) ? { query: role.teacher } : {};
               $state.go('students', params);
             }
-            // else {
-            //   $state.go('myFlashcards');
-            // }
+            else {
+              $state.go('myFlashcards');
+            }
           }
         });
 
@@ -325,7 +323,7 @@ angular.module('app', [
             template: '<assessment type="type" student="student" force-flashcards="true" ng-if="student"></assessment>',
             controller: function ($scope, $rootScope, $state, $filter, $timeout) {
 
-              var formula = '{Email} = "' + $rootScope.firebaseUser.email + '"';
+              var formula = 'LOWER(Email) = "' + $rootScope.firebaseUser.email + '"';
               var students = [];
               $rootScope.Airtable('Students').select({
                 filterByFormula: formula
