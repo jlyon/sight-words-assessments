@@ -336,7 +336,7 @@ angular.module('app', [
               }, function done(error) {
                 if (students.length === 1) {
                   $scope.student = students[0].id;
-                  $scope.type = students[0].TotalLetters >= 76 ? 'words' : 'letters';
+                  $scope.type = students[0].TotalLetters >= 70 ? 'words' : 'letters';
                   $scope.$apply();
                 }
               });
@@ -385,7 +385,7 @@ angular.module('app', [
 
               $scope.go = function(student, e) {
                 e.preventDefault();
-                $state.go('studentFlashcards', {student: student.id, type: student.TotalLetters >= 76 ? 'words' : 'letters'});
+                $state.go('studentFlashcards', {student: student.id, type: student.TotalLetters >= 70 ? 'words' : 'letters'});
               }
 
               $timeout(function() {
