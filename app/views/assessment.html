@@ -145,9 +145,14 @@
     <form class="form-inline">
       <div class="form-group">
         <label>Number of pages</label>
-        <input type="text" class="form-control" ng-model="flashcardPages">
+        <input type="text" class="form-control" ng-model="printFlashcardPages">
       </div>
-      <button class="btn btn-default" ng-click="updateFlashcards(flashcardPages)">Update</button>
+      <button class="btn btn-default" ng-click="updateFlashcards(printFlashcardPages)">Update</button>
+      <div class="form-group">
+        &nbsp;&nbsp;
+        <input type="checkbox" class="form-checkbox" ng-model="flashcardShowImages" ng-change="updateFlashcards(printFlashcardPages, flashcardShowImages)" id="flashcardShowImages" />
+        <label for="flashcardShowImages">Print image flashcards</label>
+      </div>
     </form>
     <hr/>
     <p>Showing {{flashcards.length}} flashcards</p>
@@ -159,7 +164,10 @@
          ng-click="toggleWord(item.id)">
       <span class="color-swatch" ng-style="{borderColor: item.Color}"></span>
       <div class="student-name">{{student['FirstName']}} {{student['LastName']}}</div>
-      <div class="content">{{item.Item}}</div>
+      <div class="content">
+        <span ng-if="item.Item">{{item.Item}}</span>
+        <img ng-if="!item.Item && item.Image" ng-src="images/{{item.Image}}" />
+      </div>
     </div>
   </div>
 </div>

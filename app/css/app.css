@@ -79,6 +79,10 @@ h1 {
       font-weight: bold;
       text-align: center;
       line-height: 180px; }
+      .flashcards .flashcard .content img {
+        max-height: 120px;
+        width: auto;
+      }
     .flashcards .flashcard .student-name {
       color: #ccc !important;
       position: absolute;

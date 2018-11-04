@@ -239,10 +239,14 @@ angular.module('app')
         $scope.printFlashcardPages = 2;
         $scope.toggleFlashcards = function(key) {
           $scope.toggle[key] = $scope.toggle[key] ? false : true;
-          $scope.updateFlashcards($scope.printFlashcardPages);
+          $scope.updateFlashcards();
         }
 
-        $scope.updateFlashcards = function(pages) {
+        $scope.flashcardShowImages = true;
+        $scope.updateFlashcards = function(pages, showImages) {
+          showImages = showImages == undefined ? $scope.flashcardShowImages : showImages;
+          pages = pages == undefined ? $scope.printFlashcardPages : pages;
+          pages = showImages ? pages/2 : pages;
           var items = [];
           var count = 0;
 
@@ -269,6 +273,16 @@ angular.module('app')
               }
 
               items.push(item);
+
+              // Add image flashcard (if we're adding those)
+              if (showImages) {
+                if (item.Image) {
+                  items.push({
+                    Image: item.Image
+                  });
+                }
+              }
+
               count++;
             }
           }
