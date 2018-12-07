@@ -112,8 +112,8 @@
     </style>
   </div>
 
-  <div class="list-group list-items" ng-repeat="group in groups" ng-if="assessment || assessments.length">
-    <h4>{{group.Label}}</h4>
+  <div class="list-group list-items" ng-repeat="group in groups" ng-if="(assessment || assessments.length) && group.Label">
+    <h4>{{groupLabel(group.Label)}}</h4>
     <a ng-repeat="item in items"
        ng-if="item.Group[0] == group.id"
        class="btn btn-default"

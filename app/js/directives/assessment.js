@@ -289,6 +289,10 @@ angular.module('app')
           $scope.flashcards = items;
         }
 
+        $scope.groupLabel = function(string) {
+          return string.indexOf('-') !== -1 ? string.split('-')[1].trim() : string;
+        }
+
       }
     };
   });
