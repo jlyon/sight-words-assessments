@@ -28,6 +28,12 @@ angular.module('app', [
         $rootScope.config = {
           years: [
             {
+              label: 'SIPPS 2018-19',
+              base: 'appi58GYei1Bsw8XB',
+              key: 'keyNIbNk17BU31gT8',
+              table: 'tblO1zaGQptBdjSns'
+            },
+            {
               label: '2018-19',
               base: 'appWyOO3dIQGwt4wm',
               key: 'keyNIbNk17BU31gT8',
