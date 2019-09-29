@@ -29,9 +29,9 @@ angular.module('app', [
           years: [
             {
               label: 'SIPPS 2019-20',
-              base: 'tblvkAveGOAX1czQY',
+              base: 'appZo91w4H8XgpPq7',
               key: 'keyNIbNk17BU31gT8',
-              table: 'viwQbiAis6D1PkTJv'
+              table: 'tblvkAveGOAX1czQY'
             },
             {
               label: 'SIPPS 2018-19',
