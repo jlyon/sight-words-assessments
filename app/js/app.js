@@ -56,7 +56,7 @@ angular.module('app', [
             'jeff@albatrossdigital.com': {
               role: 'admin'
             },
-            'lisa.perloff@lighthousecharter.org': {
+            'lisa.perloff@gmail.com': {
               role: 'admin',
               teacher: 'lisa'
             },
